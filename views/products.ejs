@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Products</title>
+    <link href='<%= static_path + "/bootstrap/css/theme/" + theme + "/bootstrap.css" %>' rel="stylesheet">
+    <link href='<%= static_path + "/bootstrap/css/jumbotron-narrow.css" %>' rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="/">Home</a></li>
+          <li ><a href="/users">Users</a></li>
+          <li class="active"><a href="/products">Products</a></li>
+          <li><a href="#">extra</a></li>
+        </ul>
+        <h3 class="text-muted">Users</h3>
+      </div>
+
+      <div id="productAddedSuccess" class="alert alert-success" style="display:none">
+        <p id="productAddedSuccessText">Product added successfully, refresh the page to load new data.</p>
+      </div>
+      <div id="productDuplicate" class="alert alert-success" style="display:none">
+        <p id="productDuplicateText">Duplicate product found, no action been taken</p>
+      </div>
+      <div id="productError" class="alert alert-info" style="display:none">
+        <p id="productErrorText">Well this is embarrassing. It looks like we're having trouble creating the product.</p>
+      </div>
+
+      <div>
+        <p><a class="btn btn-lg btn-success"  data-toggle="modal" href="#productModal">Add new</a></p>
+              </div>
+      <div>
+        <% if(productsData  != null){ %>
+        <table class="table table-striped" id="mytable">
+          <tr>
+            <th scope="col">Product</th><th scope="col">Price</th><th scope="col">Action</th>
+          </tr>
+
+          <% for (var i = 0; i < productsData.length; i++) { %>
+            <tr>
+              <td><%= productsData[i].Product.S %></td> 
+              <td><%= productsData[i].price.S %></td>
+              <td>
+                <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id=<%= productsData[i].Product.S %>
+                 data-price= <%= productsData[i].price.S %>>Edit</a>
+                <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id=<%= productsData[i].Product.S %>>Delete</a>
+              </td>
+            </tr>  
+          <% } %>
+        </table>
+        <% } %>
+      </div>
+
+
+
+      <div class="footer">
+        <p>&copy; A New Startup 2013</p>
+      </div>
+
+          <!-- Modal -->
+          <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModal" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">Add product details</h4>
+                </div>
+                <div class="modal-body">
+                  <form id="productForm" role="form">
+                    <div class="form-group">
+                      <label for="name">product</label>
+                      <input type="text" class="form-control" id="product" name="product" placeholder="product name">
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Price</label>
+                      <input type="price" class="form-control" id="price" name="price" placeholder="0">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button id="addProduct" type="button" class="btn btn-primary">Add Product</button>
+                </div>
+              </form>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
+
+          <!-- Modal Delete -->
+
+            <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel">Delete Product</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                      </div>
+                      <form id="delete-row-form" action="products/delete" method="post">
+                      <div class="modal-body">
+                         <strong>Are you sure to delete this data?</strong>
+                      </div>
+                      <div class="modal-footer">
+                          <input type="hidden" id="productToDelete" name="productToDelete" class="form-control" required>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-success">Delete</button>
+                      </div>
+                    </form>
+                  </div>
+              </div>
+            </div>
+
+                        <!-- Modal Update Product-->
+
+                        <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                                  <form action="products/update" method="post">
+                              <div class="modal-body">
+                                <div class="form-group">
+                                    <input type="text" name="priceToUpdate" id="priceToUpdate" class="form-control priceToUpdate" placeholder="1" required>
+                                </div>
+                  
+                              <div class="modal-footer">
+                                <input type="hidden" id="productToEdit" name="productToEdit" class="form-control">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                              </div>
+                              </form>
+                            </div>
+                          </div>
+                          </div>
+
+  </div> <!-- /container -->
+
+  <script src='<%= static_path + "/jquery/jquery-1.11.3.min.js" %>'> </script>
+  <script src='<%= static_path + "/bootstrap/js/bootstrap.min.js" %>'> </script>
+  <script type="text/javascript">
+    $(document).ready(function(){   
+        $('#mytable').on('click','.edit',function(){
+          var price = $(this).data('price');
+          var product = $(this).data('id');
+          $('#EditModal').modal('show');
+          $('#priceToUpdate').val(price);
+          $('#productToEdit').val(product);
+      });
+        $('#mytable').on('click','.delete',function(){
+          var product = $(this).data('id');
+          $('#DeleteModal').modal('show');
+          $('#productToDelete').val(product);
+      });
+      $("#addProduct").click(function() {
+        $.post( "products/addProduct", $("#productForm").serialize(),
+                function(data) {
+                  $("#productAddedSuccess").show();
+                }
+              )
+              .error(function(xhr) {
+                switch(xhr.status) {
+                  case 409:
+                    $("#productDuplicate").show();
+                    break;
+                  default:
+                    $("#productError").show();
+                }
+              })
+              .always(function() {
+                $("#productModal").modal('hide');
+              });
+      })
+  })
+    </script>
+  </body>
+</html>
+      

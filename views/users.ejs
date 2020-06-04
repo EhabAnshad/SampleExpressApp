@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Users</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href='<%= static_path + "/bootstrap/css/theme/" + theme + "/bootstrap.css" %>' rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href='<%= static_path + "/bootstrap/css/jumbotron-narrow.css" %>' rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="/">Home</a></li>
+          <li class="active"><a href="/users">Users</a></li>
+          <li><a href="/products">Products</a></li>
+          <li><a href="#">extra</a></li>
+        </ul>
+        <h3 class="text-muted">Users</h3>
+      </div>
+
+      <div>
+        <% if(usersData  != null){ %>
+        <table class="table table-striped" id="mytable">
+          <tr>
+            <th scope="col">Email</th><th scope="col">Name</th><th scope="col">Action</th>
+          </tr>
+
+          <% for (var i = 0; i < usersData.length; i++) { %>
+            <tr>
+              <td><%= usersData[i].email.S %></td> 
+              <td><%= usersData[i].name.S %></td>
+              <td>
+                <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id=<%= usersData[i].email.S %>
+                 data-user_name='<%= usersData[i].name.S %>'>Edit</a>
+                <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id=<%= usersData[i].email.S %>>Delete</a>
+              </td>
+            </tr>  
+          <% } %>
+        </table>
+        <% } %>
+      </div>
+
+    <!-- Modal Delete -->
+    <form id="add-row-form" action="users/delete" method="post">
+      <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                   <h5 class="modal-title" id="myModalLabel">Delete email</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                <strong>Are you sure to delete this data?</strong>
+                </div>
+                <div class="modal-footer">
+                     <input type="hidden" id="emailToDelete" name="emailToDelete" class="form-control" required>
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     <button type="submit" class="btn btn-success">Delete</button>
+                </div>
+                 </div>
+         </div>
+      </div>
+  </form>
+
+    <!-- Modal Update Product-->
+    <form action="users/update" method="post">
+      <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+       <div class="modal-dialog" role="document">
+         <div class="modal-content">
+           <div class="modal-header">
+             <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+             </button>
+           </div>
+           <div class="modal-body">
+             <div class="form-group">
+                 <input type="text" name="user_name" id="user_name" class="form-control user_name" placeholder="Name" required>
+             </div>
+
+           <div class="modal-footer">
+             <input type="hidden" id="emailToEdit" name="emailToEdit" class="form-control">
+             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+             <button type="submit" class="btn btn-primary">Update</button>
+           </div>
+         </div>
+       </div>
+      </div>
+ </form>
+
+      <div class="footer">
+        <p>&copy; A New Startup 2013</p>
+      </div>
+
+    </div> <!-- /container -->
+
+  <script src='<%= static_path + "/jquery/jquery-1.11.3.min.js" %>'> </script>
+  <script src='<%= static_path + "/bootstrap/js/bootstrap.min.js" %>'> </script>
+  <script type="text/javascript">
+    $(document).ready(function(){   
+        $('#mytable').on('click','.edit',function(){
+          var name = $(this).data('user_name');
+          var email = $(this).data('id');
+          $('#EditModal').modal('show');
+          $('#user_name').val(name);
+          $('#emailToEdit').val(email);
+      });
+        $('#mytable').on('click','.delete',function(){
+          var email = $(this).data('id');
+          $('#DeleteModal').modal('show');
+          $('#emailToDelete').val(email);
+      });
+  })
+    </script>
+  </body>
+</html>
+      
