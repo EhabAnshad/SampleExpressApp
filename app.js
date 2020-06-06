@@ -29,7 +29,7 @@ if (cluster.isMaster) {
     var bodyParser = require('body-parser');
      AWS.config.setPromisesDependency(require('bluebird'));
 
-     const local = false;
+     const local = true;
      if (local){
         AWS.config.update({region: "eu-west-2",endpoint: "http://localhost:8010"})
     }
