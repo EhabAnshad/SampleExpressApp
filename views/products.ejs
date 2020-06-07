@@ -162,11 +162,17 @@
           $('#productToEdit').val(product);
       });
         $('#mytable').on('click','.delete',function(){
+          $("#productDuplicate").css("display", "none");
+         $("#productError").css("display", "none");
+         $("#productAddedSuccess").css("display", "none");
           var product = $(this).data('id');
           $('#DeleteModal').modal('show');
           $('#productToDelete').val(product);
       });
       $("#addProduct").click(function() {
+        $("#productDuplicate").css("display", "none");
+         $("#productError").css("display", "none");
+         $("#productAddedSuccess").css("display", "none");
         $.post( "products/addProduct", $("#productForm").serialize(),
                 function(data) {
                   $("#productAddedSuccess").show();
