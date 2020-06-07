@@ -36,8 +36,9 @@
       </div>
 
       <div>
-        <p><a class="btn btn-lg btn-success"  data-toggle="modal" href="#productModal">Add new</a></p>
-              </div>
+        <p><a id="addNewProduct" class="btn btn-lg btn-success"  data-toggle="modal" href="#productModal">Add new</a></p>
+     </div>
+     
       <div>
         <% if(productsData  != null){ %>
         <table class="table table-striped" id="mytable">
@@ -47,12 +48,12 @@
 
           <% for (var i = 0; i < productsData.length; i++) { %>
             <tr>
-              <td><%= productsData[i].Product.S %></td> 
-              <td><%= productsData[i].price.S %></td>
+              <td  name="productName" id=<%= productsData[i].Product.S %>><%= productsData[i].Product.S %></td> 
+              <td  name="productPrice" id=<%=  productsData[i].Product.S + "_" + productsData[i].price.S %>><%= productsData[i].price.S %></td>
               <td>
                 <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id=<%= productsData[i].Product.S %>
                  data-price= <%= productsData[i].price.S %>>Edit</a>
-                <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id=<%= productsData[i].Product.S %>>Delete</a>
+                <a href="javascript:void(0);"name=<%= productsData[i].Product.S + "_delete" %> class="btn btn-sm btn-danger delete" data-id=<%= productsData[i].Product.S %>>Delete</a>
               </td>
             </tr>  
           <% } %>
@@ -110,7 +111,7 @@
                       <div class="modal-footer">
                           <input type="hidden" id="productToDelete" name="productToDelete" class="form-control" required>
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                          <button type="submit" class="btn btn-success">Delete</button>
+                          <button id="delete" type="submit" class="btn btn-success">Delete</button>
                       </div>
                     </form>
                   </div>
@@ -137,7 +138,7 @@
                               <div class="modal-footer">
                                 <input type="hidden" id="productToEdit" name="productToEdit" class="form-control">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Update</button>
+                                <button type="submit" id="update" class="btn btn-primary">Update</button>
                               </div>
                               </form>
                             </div>
@@ -150,7 +151,10 @@
   <script src='<%= static_path + "/bootstrap/js/bootstrap.min.js" %>'> </script>
   <script type="text/javascript">
     $(document).ready(function(){   
-        $('#mytable').on('click','.edit',function(){
+         $('#mytable').on('click','.edit',function(){
+         $("#productDuplicate").css("display", "none");
+         $("#productError").css("display", "none");
+         $("#productAddedSuccess").css("display", "none");
           var price = $(this).data('price');
           var product = $(this).data('id');
           $('#EditModal').modal('show');

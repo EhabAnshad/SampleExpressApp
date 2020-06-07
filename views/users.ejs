@@ -38,12 +38,12 @@
 
           <% for (var i = 0; i < usersData.length; i++) { %>
             <tr>
-              <td><%= usersData[i].email.S %></td> 
-              <td><%= usersData[i].name.S %></td>
+              <td name="email" id=<%= usersData[i].email.S %>><%= usersData[i].email.S %></td> 
+              <td name="name" id=<%=  usersData[i].email.S + "_" + usersData[i].name.S %>><%= usersData[i].name.S %></td>
               <td>
                 <a href="javascript:void(0);" class="btn btn-sm btn-info edit" data-id=<%= usersData[i].email.S %>
                  data-user_name='<%= usersData[i].name.S %>'>Edit</a>
-                <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id=<%= usersData[i].email.S %>>Delete</a>
+                <a href="javascript:void(0);" name=<%= usersData[i].email.S + "_delete" %> class="btn btn-sm btn-danger delete" data-id=<%= usersData[i].email.S %>>Delete</a>
               </td>
             </tr>  
           <% } %>
@@ -67,7 +67,7 @@
                 <div class="modal-footer">
                      <input type="hidden" id="emailToDelete" name="emailToDelete" class="form-control" required>
                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-success">Delete</button>
+                     <button id="delete" type="submit" class="btn btn-success">Delete</button>
                 </div>
                  </div>
          </div>
@@ -93,7 +93,7 @@
            <div class="modal-footer">
              <input type="hidden" id="emailToEdit" name="emailToEdit" class="form-control">
              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-             <button type="submit" class="btn btn-primary">Update</button>
+             <button type="submit"  id="update" class="btn btn-primary">Update</button>
            </div>
          </div>
        </div>
